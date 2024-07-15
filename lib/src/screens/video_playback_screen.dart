@@ -1,23 +1,27 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:youtube/src/models/video_model.dart';
 import 'package:youtube/src/models/channel_model.dart';
+import 'package:youtube/src/services/fetch_videos_channel.dart';
 import 'package:youtube/src/services/fetch_url_from_video_id.dart';
 
 import '../utils/colours.dart';
 import '../widgets/profile_avatar.dart';
+import '../widgets/thumbnail_card.dart';
 import '../functions/calculate_time.dart';
 import '../functions/calculate_views.dart';
-import '../services/fetch_related_videos.dart';
 
 import '../constants/rounded_button.dart';
 import '../constants/image_error_cont.dart';
 import '../constants/image_loading_cont.dart';
+import '../components/shimmer_loader/thumbnail_loader.dart';
 import '../components/video_player_components/interactive_component.dart';
+import '../components/video_player_components/Description_component.dart';
 
 class VideoPlaybackScreen extends StatefulWidget {
   final String userId;
@@ -40,13 +44,37 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
   late ChewieController _chewieController;
 
   late String videoUrl = '';
+  late List<dynamic> video = [];
   bool _isInitialized = false;
+  bool loading = true;
 
   @override
   void initState() {
     super.initState();
     fetchUrl().then(
       (value) => _initializeVideoPlayer(),
+    );
+    getNewerVideoIds();
+  }
+
+  Future<void> getNewerVideoIds() async {
+    setState(
+      () {
+        loading = true;
+      },
+    );
+
+    await fetchNewerVideoIds(
+      widget.video.channelId,
+    ).then(
+      (value) {
+        setState(
+          () {
+            video = value;
+            loading = false;
+          },
+        );
+      },
     );
   }
 
@@ -123,31 +151,14 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
+        body:
+            // RefreshIndicator(
+            //   onRefresh: getNewerVideoIds,
+            //   child:
+            SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Stack(
-              //   children: [
-              //     AspectRatio(
-              //       aspectRatio: 16 / 9,
-              //       child: Chewie(
-              //         controller: _chewieController,
-              //       ),
-              //     ),
-              //     Positioned(
-              //       bottom: 0,
-              //       left: 0,
-              //       right: 0,
-              //       child: VideoProgressIndicator(
-              //         _videoPlayerController,
-              //         allowScrubbing: true,
-              //         padding: const EdgeInsets.all(8),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-
               _isInitialized
                   ? AspectRatio(
                       aspectRatio: _videoPlayerController.value.aspectRatio,
@@ -202,7 +213,17 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
                       height: size.height * 0.005,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (BuildContext context) {
+                            return DescriptionSheet(
+                                video: widget.video, channel: widget.channel);
+                          },
+                        );
+                      },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -245,34 +266,43 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
                     ProfileAvatar(
                       imgPath: widget.channel.profilePictureUrl,
                       radius: 21,
-                    ), // Set the
-                    SizedBox(
-                      width: size.width * 0.03,
                     ),
-                    Text(
-                      widget.channel.title,
-                      style: GoogleFonts.nunito(
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: size.width * 0.03,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              maxLines:
+                                  2, // Allow the text to wrap to a second line if needed
+                              overflow: TextOverflow
+                                  .ellipsis, // Add ellipsis to overflowed text
+                              widget.channel.title,
+                              style: GoogleFonts.nunito(
+                                textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              '${widget.channel.subscriberCount.toString()} sub',
+                              style: GoogleFonts.nunito(
+                                textStyle: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black.withOpacity(0.6),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: size.width * 0.03,
-                    ),
-                    Text(
-                      '${widget.channel.subscriberCount.toString()} sub',
-                      style: GoogleFonts.nunito(
-                        textStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black.withOpacity(0.6),
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
                     SizedBox(
                       height: 40,
                       child: RoundedButton(
@@ -323,11 +353,45 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
                   ),
                 ),
               ),
-              buildRealtedVideosWidget(size, widget.video.channelId),
+              loading
+                  ? ListView(
+                      children: List.generate(
+                        // Generate loading skeleton cards based on the length of the list
+                        video.length,
+                        (index) => BuildSkeletonLoader(size: size),
+                      ),
+                    )
+                  : ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: video.length,
+                      itemBuilder: (context, index) {
+                        var item = video[index];
+
+                        if (video.isEmpty) {
+                          return Text(
+                            'No Videos found ! \n There are no videos Related to this channel',
+                            style: GoogleFonts.montserrat(
+                              textStyle: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          );
+                        }
+
+                        return ThumbnailCard(
+                          videoPreview: item,
+                        );
+                      },
+                    ),
             ],
           ),
         ),
       ),
     );
+    //     ),
+    //   ),
+    // );
   }
 }

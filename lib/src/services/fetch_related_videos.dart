@@ -6,11 +6,13 @@ import '../components/shimmer_loader/thumbnail_loader.dart';
 import 'package:youtube/src/services/fetch_videos_channel.dart';
 
 Widget buildRealtedVideosWidget(Size size, String channelId) {
+  // Build the realted videos
+
   return FutureBuilder(
     future: fetchNewerVideoIds(channelId),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        // Data is still being fetched, show the skeleton loader
+        // Data has been fetched, now build the actual UI
 
         return BuildSkeletonLoader(size: size);
       } else if (snapshot.hasError) {
@@ -30,7 +32,7 @@ Widget buildRealtedVideosWidget(Size size, String channelId) {
           ),
         );
       } else {
-        // Data has been fetched, now build the actual UI
+        // Data is still being fetched, show the skeleton loader
 
         return ListView.builder(
           shrinkWrap: true,

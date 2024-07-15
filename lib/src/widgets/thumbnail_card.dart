@@ -65,9 +65,9 @@ class _ThumbnailCardState extends State<ThumbnailCard> {
     return Card(
       margin: EdgeInsets.symmetric(
         vertical: size.height * 0.01,
-        horizontal: size.width * 0.01,
+        horizontal: size.width * 0.02,
       ),
-      elevation: 0, // Set the elevation to 0 to remove Card's default shadow
+      elevation: 5, // Set the elevation to 0 to remove Card's default shadow
       color: kPrimaryLightShade.withOpacity(0.5),
       shape: RoundedRectangleBorder(
         borderRadius:

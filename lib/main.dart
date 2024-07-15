@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'src/screens/onboard_screen.dart';
-import 'src/utils/colours.dart';
 import 'src/utils/keys.dart';
+import 'src/utils/colours.dart';
+import 'src/screens/onboard_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
