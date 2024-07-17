@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../constants/description_stats.dart';
-import '../constants/description_tags.dart';
-import '../constants/description_text.dart';
-import '../constants/rounded_button.dart';
-import '../utils/colours.dart';
+import 'description_stats.dart';
+import 'description_tags.dart';
+import 'description_text.dart';
+import '../../constants/rounded_button.dart';
+import '../../utils/colours.dart';
 
 import 'package:youtube/src/models/video_model.dart';
 import 'package:youtube/src/models/channel_model.dart';
 
-import 'profile_avatar.dart';
+import '../../widgets/profile_avatar.dart';
 
 class DescriptionCard extends StatelessWidget {
   final VideoPreview video;

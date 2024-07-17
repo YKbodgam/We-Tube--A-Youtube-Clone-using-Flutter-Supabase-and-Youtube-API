@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:youtube/src/models/video_model.dart';
 import 'package:youtube/src/models/channel_model.dart';
 
-import '../../widgets/description_card.dart';
+import 'description_card.dart';
 
 class DescriptionSheet extends StatelessWidget {
   final VideoPreview video;

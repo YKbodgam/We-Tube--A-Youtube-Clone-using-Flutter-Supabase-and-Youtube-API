@@ -12,16 +12,16 @@ import 'package:youtube/src/services/fetch_url_from_video_id.dart';
 
 import '../utils/colours.dart';
 import '../widgets/profile_avatar.dart';
-import '../widgets/thumbnail_card.dart';
+import '../models/thumbnail_model/thumbnail_card.dart';
 import '../functions/calculate_time.dart';
 import '../functions/calculate_views.dart';
 
 import '../constants/rounded_button.dart';
 import '../constants/image_error_cont.dart';
 import '../constants/image_loading_cont.dart';
-import '../components/shimmer_loader/thumbnail_loader.dart';
+import '../models/skeleton_model/thumbnail_loader.dart';
 import '../components/video_player_components/interactive_component.dart';
-import '../components/video_player_components/Description_component.dart';
+import '../models/description_model/description_sheet.dart';
 
 class VideoPlaybackScreen extends StatefulWidget {
   final String userId;
@@ -355,6 +355,8 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
               ),
               loading
                   ? ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       children: List.generate(
                         // Generate loading skeleton cards based on the length of the list
                         video.length,

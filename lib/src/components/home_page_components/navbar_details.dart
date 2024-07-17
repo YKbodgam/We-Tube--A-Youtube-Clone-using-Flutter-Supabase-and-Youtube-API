@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/colours.dart';
-import '../../widgets/profile_avatar.dart';
 import '../../widgets/search_bar.dart';
-import '../../constants/rounded_icon_button.dart';
+import '../../widgets/profile_avatar.dart';
 
 class HomeNavbar extends StatefulWidget {
   const HomeNavbar({super.key});
@@ -52,15 +51,8 @@ class _HomeNavbarState extends State<HomeNavbar> {
               borderRadius: 30.0,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: RoundedIconButton(
-              icon: Icons.notifications_active_outlined,
-              iconSize: 30.0,
-              iconColor: Colors.black,
-              backgroundColor: Colors.white,
-              badgeText: '5',
-            ),
+          SizedBox(
+            width: size.width * 0.03,
           ),
           ProfileAvatar(
             imgPath: imgPath,

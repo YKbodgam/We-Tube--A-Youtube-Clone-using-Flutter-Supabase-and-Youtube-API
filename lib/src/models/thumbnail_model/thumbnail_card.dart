@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'profile_avatar.dart';
-import '../utils/colours.dart';
-import '../functions/calculate_time.dart';
-import '../functions/calculate_views.dart';
-import '../screens/video_playback_screen.dart';
+import '../../widgets/profile_avatar.dart';
+import '../../functions/calculate_time.dart';
+import '../../functions/calculate_views.dart';
+import '../../screens/video_playback_screen.dart';
 
-import '../constants/rounded_icon_button.dart';
-import '../components/home_page_components/video_thumbnail.dart';
+import '../../constants/rounded_icon_button.dart';
+import 'thumbnail_image.dart';
 
 import 'package:youtube/src/models/video_model.dart';
 import 'package:youtube/src/models/channel_model.dart';
@@ -68,7 +67,7 @@ class _ThumbnailCardState extends State<ThumbnailCard> {
         horizontal: size.width * 0.02,
       ),
       elevation: 5, // Set the elevation to 0 to remove Card's default shadow
-      color: kPrimaryLightShade.withOpacity(0.5),
+      color: const Color.fromARGB(255, 255, 155, 155),
       shape: RoundedRectangleBorder(
         borderRadius:
             BorderRadius.circular(14), // Adjust the border radius as needed

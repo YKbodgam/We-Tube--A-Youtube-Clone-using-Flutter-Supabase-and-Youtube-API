@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../functions/calculate_date.dart';
-import '../functions/calculate_views.dart';
+import '../../functions/calculate_date.dart';
+import '../../functions/calculate_views.dart';
 
 import 'package:youtube/src/models/video_model.dart';
 

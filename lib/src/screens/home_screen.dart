@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../constants/rounded_button.dart';
-import '../constants/selectable_chip.dart';
-import '../components/shimmer_loader/thumbnail_loader.dart';
+import '../widgets/selectable_chip.dart';
+import '../models/skeleton_model/thumbnail_loader.dart';
 import '../components/home_page_components/navbar_details.dart';
+import '../models/store_video_model/create_video_sheet.dart';
 
-import 'package:youtube/src/services/fetch_video_details.dart';
-import 'package:youtube/src/services/fetch_video_id_from_url.dart';
-
-import '../widgets/thumbnail_card.dart';
+import '../utils/colours.dart';
+import '../models/thumbnail_model/thumbnail_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -21,44 +19,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _urlController = TextEditingController();
   bool allowNavigation = false;
   bool loading = false;
 
-  late String videoUrl = '';
   late String imgPath = 'null';
   late List<dynamic> videos = [];
 
   @override
   void initState() {
     super.initState();
-  }
-
-  _addVideoFromUrl(String url) async {
-    setState(
-      () {
-        loading = true;
-      },
-    );
-
-    // We will get Video ID from the URL
-    String? videoId = extractVideoId(url);
-
-    // After we get the video ID from the URL we will fetch the video details
-    if (videoId != null) {
-      final video = await fetchVideoDetails(videoId);
-
-      // Once we get the video details we will update the video list
-      setState(
-        () {
-          videos.insert(0, video);
-          loading = false;
-        },
-      );
-    } else {
-      // Show error message
-      debugPrint('error');
-    }
   }
 
   Future<void> getAllVideos() async {
@@ -92,75 +61,106 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         extendBody: true,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        body: Stack(
           children: [
-            Padding(
-              padding: EdgeInsets.only(top: size.height * 0.01),
-              child: const HomeNavbar(),
-            ),
-            Container(
-              constraints: const BoxConstraints(maxHeight: 60),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: tags.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 12.0),
-                    child: SelectableChip(
-                      label: tags[index],
-                    ),
-                  );
-                },
-              ),
-            ),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Padding(
+                  padding: EdgeInsets.only(top: size.height * 0.01),
+                  child: const HomeNavbar(),
+                ),
+                Container(
+                  constraints: const BoxConstraints(maxHeight: 60),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: tags.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: SelectableChip(
+                          label: tags[index],
+                        ),
+                      );
+                    },
+                  ),
+                ),
                 Expanded(
-                  child: TextField(
-                    controller: _urlController,
-                    decoration: const InputDecoration(labelText: 'YouTube URL'),
+                  child: RefreshIndicator(
+                    onRefresh: getAllVideos,
+                    child: loading
+                        ? ListView(
+                            children: List.generate(
+                              // Generate loading skeleton cards based on the length of the list
+                              videos.length,
+                              (index) => BuildSkeletonLoader(size: size),
+                            ),
+                          )
+                        : videos.isEmpty
+                            ? Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'No Videos found !',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      'Add some videos to your home page',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: videos.length,
+                                itemBuilder: (context, index) {
+                                  var item = videos[index];
+
+                                  loading = false;
+
+                                  return ThumbnailCard(
+                                    videoPreview: item,
+                                  );
+                                },
+                              ),
                   ),
                 ),
               ],
             ),
-            RoundedButton(
-              text: 'import',
-              press: () => _addVideoFromUrl(_urlController.text),
-            ),
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: getAllVideos,
-                child: loading
-                    ? ListView(
-                        children: List.generate(
-                          // Generate loading skeleton cards based on the length of the list
-                          videos.length,
-                          (index) => BuildSkeletonLoader(size: size),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: videos.length,
-                        itemBuilder: (context, index) {
-                          var item = videos[index];
 
-                          if (videos.isEmpty) {
-                            return Text(
-                              'No Videos found ! \n Add some videos to your home page',
-                              style: GoogleFonts.montserrat(
-                                textStyle: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            );
-                          }
+            Positioned(
+              right: 15,
+              bottom: 15,
+              child: FloatingActionButton(
+                onPressed: () async {
+                  final result = await showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const AddNewVideo();
+                    },
+                  );
 
-                          return ThumbnailCard(
-                            videoPreview: item,
-                          );
-                        },
-                      ),
+                  if (result != null) {
+                    setState(() {
+                      videos.add(result);
+                    });
+                  }
+                },
+
+                backgroundColor: kPrimaryLightColor,
+                child: const Icon(Icons.add), // Change color as needed
               ),
             ),
 
