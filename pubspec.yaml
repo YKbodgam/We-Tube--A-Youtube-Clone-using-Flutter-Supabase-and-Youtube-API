@@ -52,6 +52,7 @@ dependencies:
 
   youtube_explode_dart: ^2.2.1
   receive_sharing_intent: ^1.8.0
+  fluttertoast: ^8.2.6
 
 dev_dependencies:
   flutter_test:

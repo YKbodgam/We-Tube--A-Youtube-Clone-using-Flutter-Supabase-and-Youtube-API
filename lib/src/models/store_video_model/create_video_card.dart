@@ -1,19 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../constants/rounded_button.dart';
-import '../../widgets/text_field_cont.dart';
 import 'create_video_img.dart';
+import '../../utils/styles.dart';
+import '../../utils/colours.dart';
+import '../../widgets/text_style.dart';
+import '../../widgets/text_field_cont.dart';
+import '../../constants/rounded_button.dart';
 import '../../functions/calculate_time.dart';
 import '../../functions/calculate_views.dart';
-import '../../utils/colours.dart';
 
-import 'package:youtube/src/services/fetch_video_details.dart';
-import 'package:youtube/src/services/fetch_video_id_from_url.dart';
 import 'package:youtube/src/models/video_model.dart';
 import 'package:youtube/src/models/thumbnail_model.dart';
+import 'package:youtube/src/services/fetch_video_details.dart';
+import 'package:youtube/src/services/fetch_video_id_from_url.dart';
 
 class NewVideoCard extends StatefulWidget {
   const NewVideoCard({super.key});
@@ -107,15 +106,12 @@ class _NewVideoCardState extends State<NewVideoCard> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "Add Video",
-                  style: GoogleFonts.nunito(
-                    textStyle: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    color: kPrimaryDarkShade,
-                  ),
+                BuildText(
+                  text: "Add Video",
+                  color: kPrimaryDarkShade,
+                  fontSize: FontSizes.largeTextSize(context),
+                  fontWeight: FontWeight.bold,
+                  textStyle: StyleText.baseTextStyle_2,
                 ),
                 const Spacer(),
                 IconButton(
@@ -159,38 +155,27 @@ class _NewVideoCardState extends State<NewVideoCard> {
                       vertical: size.height * 0.01,
                       horizontal: size.width * 0.02,
                     ),
-                    child: Text(
-                      maxLines:
-                          2, // Allow the text to wrap to a second line if needed
-                      overflow: TextOverflow
-                          .ellipsis, // Add ellipsis to overflowed text
-
-                      video.title,
-                      style: GoogleFonts.montserrat(
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    child: BuildText(
+                      text: video.title,
+                      fontSize: FontSizes.mediumLargeTextSize(context),
+                      fontWeight: FontWeight.bold,
+                      textStyle: StyleText.baseTextStyle_1,
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: size.width * 0.02,
                     ),
-                    child: Text(
-                      "${formatViews(
+                    child: BuildText(
+                      text: "${formatViews(
                         video.viewsCount,
                       )} Views •  ${timeAgo(
                         video.publishedAt,
                       )}",
-                      style: GoogleFonts.nunito(
-                        textStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black.withOpacity(0.6),
-                        ),
-                      ),
+                      color: Colors.black.withOpacity(0.6),
+                      fontSize: FontSizes.mediumSmallTextSize(context),
+                      fontWeight: FontWeight.bold,
+                      textStyle: StyleText.baseTextStyle_2,
                     ),
                   ),
                   Padding(

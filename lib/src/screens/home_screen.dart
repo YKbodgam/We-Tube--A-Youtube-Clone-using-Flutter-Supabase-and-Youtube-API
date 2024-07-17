@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../widgets/selectable_chip.dart';
-import '../models/skeleton_model/thumbnail_loader.dart';
-import '../components/home_page_components/navbar_details.dart';
-import '../models/store_video_model/create_video_sheet.dart';
-
+import '../utils/styles.dart';
 import '../utils/colours.dart';
+import '../widgets/text_style.dart';
+import '../widgets/selectable_chip.dart';
+
 import '../models/thumbnail_model/thumbnail_card.dart';
+import '../models/skeleton_model/thumbnail_loader.dart';
+import '../models/store_video_model/create_video_sheet.dart';
+import '../components/home_page_components/navbar_details.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -102,23 +103,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      'No Videos found !',
-                                      style: GoogleFonts.montserrat(
-                                        textStyle: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
+                                    BuildText(
+                                      text: 'No Videos found !',
+                                      fontSize:
+                                          FontSizes.mediumTextSize(context),
+                                      fontWeight: FontWeight.bold,
+                                      textStyle: StyleText.baseTextStyle_1,
                                     ),
-                                    Text(
-                                      'Add some videos to your home page',
-                                      style: GoogleFonts.montserrat(
-                                        textStyle: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
+                                    BuildText(
+                                      text: 'Add some videos to your home page',
+                                      fontSize:
+                                          FontSizes.mediumTextSize(context),
+                                      fontWeight: FontWeight.bold,
+                                      textStyle: StyleText.baseTextStyle_1,
                                     ),
                                   ],
                                 ),

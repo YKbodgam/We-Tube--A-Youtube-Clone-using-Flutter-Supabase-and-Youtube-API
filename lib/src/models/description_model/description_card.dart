@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import 'description_stats.dart';
 import 'description_tags.dart';
 import 'description_text.dart';
-import '../../constants/rounded_button.dart';
+import 'description_stats.dart';
+import '../../utils/styles.dart';
 import '../../utils/colours.dart';
+import '../../widgets/text_style.dart';
+import '../../constants/rounded_button.dart';
 
 import 'package:youtube/src/models/video_model.dart';
 import 'package:youtube/src/models/channel_model.dart';
@@ -36,15 +37,13 @@ class DescriptionCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(
-                "Description",
-                style: GoogleFonts.nunito(
-                  textStyle: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  color: kPrimaryDarkShade,
-                ),
+              BuildText(
+                text: "Description",
+                color: kPrimaryDarkShade,
+                // fontSize: 24,
+                fontSize: FontSizes.veryLargeTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_2,
               ),
               const Spacer(),
               IconButton(
@@ -67,17 +66,12 @@ class DescriptionCard extends StatelessWidget {
               color: kPrimaryDarkShade, // Set the color of the line
             ),
           ),
-          Text(
-            maxLines: 3, // Allow the text to wrap to a second line if needed
-            overflow: TextOverflow.ellipsis, // Add ellipsis to overflowed text
-
-            video.title,
-            style: GoogleFonts.montserrat(
-              textStyle: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          BuildText(
+            text: video.title,
+            // fontSize: 24,
+            fontSize: FontSizes.regularTextSize(context),
+            fontWeight: FontWeight.bold,
+            textStyle: StyleText.baseTextStyle_2,
           ),
           ShowDescriptionStats(size: size, video: video),
           video.description.isNotEmpty
@@ -102,25 +96,19 @@ class DescriptionCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      channel.title,
-                      style: GoogleFonts.nunito(
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
+                    BuildText(
+                      text: channel.title,
+                      color: Colors.black,
+                      fontSize: FontSizes.mediumLargeTextSize(context),
+                      fontWeight: FontWeight.bold,
+                      textStyle: StyleText.baseTextStyle_2,
                     ),
-                    Text(
-                      '${channel.subscriberCount.toString()} sub',
-                      style: GoogleFonts.nunito(
-                        textStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black.withOpacity(0.6),
-                        ),
-                      ),
+                    BuildText(
+                      text: '${channel.subscriberCount.toString()} sub',
+                      color: Colors.black.withOpacity(0.6),
+                      fontSize: FontSizes.mediumSmallTextSize(context),
+                      fontWeight: FontWeight.bold,
+                      textStyle: StyleText.baseTextStyle_2,
                     ),
                   ],
                 ),
@@ -132,15 +120,15 @@ class DescriptionCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               RoundedButton(
-                text: 'Videoa',
+                text: 'Videos',
                 press: () {},
-                margin: EdgeInsets.symmetric(
+                margin: const EdgeInsets.symmetric(
                   vertical: 0,
                   horizontal: 0,
                 ),
               ),
               RoundedButton(
-                text: 'Videoa',
+                text: 'Videos',
                 press: () {},
                 margin: EdgeInsets.symmetric(
                   vertical: size.height * 0,

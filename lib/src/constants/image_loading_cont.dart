@@ -6,7 +6,9 @@ Widget buildLoadingContainer() {
     child: CircularProgressIndicator(
       strokeWidth: 3.0,
       color: kPrimaryDarkShade,
-      valueColor: AlwaysStoppedAnimation<Color>(kPrimaryDarkShade),
+      valueColor: AlwaysStoppedAnimation<Color>(
+        kPrimaryDarkShade,
+      ),
     ),
   );
 }

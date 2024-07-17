@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intern_project_2/src/utils/colours.dart';
+
+import 'text_style.dart';
+import '../utils/styles.dart';
+import '../utils/colours.dart';
 
 class SelectableChip extends StatefulWidget {
   final String label;
@@ -28,15 +30,12 @@ class _SelectableChipState extends State<SelectableChip> {
         });
       },
       child: Chip(
-        label: Text(
-          widget.label,
-          style: GoogleFonts.montserrat(
-            textStyle: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-            color: _isSelected ? Colors.white : kPrimaryDarkShade,
-          ),
+        label: BuildText(
+          text: widget.label,
+          color: _isSelected ? Colors.white : kPrimaryDarkShade,
+          fontSize: FontSizes.smallTextSize(context),
+          fontWeight: FontWeight.bold,
+          textStyle: StyleText.baseTextStyle_1,
         ),
         backgroundColor: _isSelected ? kPrimaryLightShade : Colors.white,
         shape: RoundedRectangleBorder(

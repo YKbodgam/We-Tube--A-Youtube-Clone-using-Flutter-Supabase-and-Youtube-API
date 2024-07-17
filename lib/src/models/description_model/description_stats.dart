@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../functions/calculate_date.dart';
 import '../../functions/calculate_views.dart';
 
 import 'package:youtube/src/models/video_model.dart';
+
+import '../../utils/styles.dart';
+import '../../widgets/text_style.dart';
 
 class ShowDescriptionStats extends StatelessWidget {
   const ShowDescriptionStats({
@@ -29,74 +31,54 @@ class ShowDescriptionStats extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                formatViews(
-                  video.likesCount,
-                ),
-                style: GoogleFonts.montserrat(
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              BuildText(
+                text: formatViews(video.likesCount),
+                fontSize: FontSizes.mediumLargeTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_1,
               ),
-              Text(
-                'Likes',
-                style: GoogleFonts.montserrat(
-                  textStyle: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              BuildText(
+                text: 'Likes',
+                color: Colors.black.withOpacity(0.6),
+                fontSize: FontSizes.mediumTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_1,
               ),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                video.viewsCount,
-                style: GoogleFonts.montserrat(
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              BuildText(
+                text: video.viewsCount,
+                fontSize: FontSizes.mediumLargeTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_1,
               ),
-              Text(
-                'Views',
-                style: GoogleFonts.montserrat(
-                  textStyle: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              BuildText(
+                text: 'Views',
+                color: Colors.black.withOpacity(0.6),
+                fontSize: FontSizes.mediumTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_1,
               ),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                formatDate(video.publishedAt)[0],
-                style: GoogleFonts.montserrat(
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              BuildText(
+                text: formatDate(video.publishedAt)[0],
+                fontSize: FontSizes.mediumLargeTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_1,
               ),
-              Text(
-                formatDate(video.publishedAt)[1],
-                style: GoogleFonts.montserrat(
-                  textStyle: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              BuildText(
+                text: formatDate(video.publishedAt)[1],
+                color: Colors.black.withOpacity(0.6),
+                fontSize: FontSizes.mediumTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_1,
               ),
             ],
           )

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../functions/calculate_views.dart';
-import '../../utils/colours.dart';
 import 'circular_back_component.dart';
+
+import '../../utils/styles.dart';
+import '../../utils/colours.dart';
+import '../../widgets/text_style.dart';
+import '../../functions/calculate_views.dart';
 
 class InteractiveField extends StatelessWidget {
   final String likecount;
@@ -31,17 +32,15 @@ class InteractiveField extends StatelessWidget {
               SizedBox(
                 width: size.width * 0.016,
               ),
-              Text(
-                formatViews(
+              BuildText(
+                text: formatViews(
                   likecount,
                 ),
-                style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                fontSize: FontSizes.smallTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_3,
               ),
+
               Container(
                 margin: EdgeInsets.symmetric(
                   vertical: 4,
@@ -73,14 +72,11 @@ class InteractiveField extends StatelessWidget {
               SizedBox(
                 width: size.width * 0.01,
               ),
-              Text(
-                'Share',
-                style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              BuildText(
+                text: 'Share',
+                fontSize: FontSizes.smallTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_3,
               ),
             ],
           ),
@@ -97,14 +93,11 @@ class InteractiveField extends StatelessWidget {
               SizedBox(
                 width: size.width * 0.01,
               ),
-              Text(
-                'Download',
-                style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              BuildText(
+                text: 'Download',
+                fontSize: FontSizes.smallTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_3,
               ),
             ],
           ),
@@ -121,14 +114,11 @@ class InteractiveField extends StatelessWidget {
               SizedBox(
                 width: size.width * 0.01,
               ),
-              Text(
-                'Save',
-                style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              BuildText(
+                text: 'Save',
+                fontSize: FontSizes.smallTextSize(context),
+                fontWeight: FontWeight.bold,
+                textStyle: StyleText.baseTextStyle_3,
               ),
             ],
           ),

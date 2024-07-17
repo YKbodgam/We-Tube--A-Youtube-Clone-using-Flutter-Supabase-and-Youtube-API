@@ -1,7 +1,5 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -10,18 +8,19 @@ import 'package:youtube/src/models/channel_model.dart';
 import 'package:youtube/src/services/fetch_videos_channel.dart';
 import 'package:youtube/src/services/fetch_url_from_video_id.dart';
 
+import '../utils/styles.dart';
 import '../utils/colours.dart';
-import '../widgets/profile_avatar.dart';
-import '../models/thumbnail_model/thumbnail_card.dart';
+import '../widgets/text_style.dart';
 import '../functions/calculate_time.dart';
 import '../functions/calculate_views.dart';
 
-import '../constants/rounded_button.dart';
 import '../constants/image_error_cont.dart';
 import '../constants/image_loading_cont.dart';
+import '../models/thumbnail_model/thumbnail_card.dart';
 import '../models/skeleton_model/thumbnail_loader.dart';
-import '../components/video_player_components/interactive_component.dart';
+import '../models/video_player_model/channel_details.dart';
 import '../models/description_model/description_sheet.dart';
+import '../components/video_player_components/interactive_component.dart';
 
 class VideoPlaybackScreen extends StatefulWidget {
   final String userId;
@@ -195,19 +194,11 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      maxLines:
-                          2, // Allow the text to wrap to a second line if needed
-                      overflow: TextOverflow
-                          .ellipsis, // Add ellipsis to overflowed text
-
-                      widget.video.title,
-                      style: GoogleFonts.montserrat(
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    BuildText(
+                      text: widget.video.title,
+                      fontSize: FontSizes.mediumTextSize(context),
+                      fontWeight: FontWeight.bold,
+                      textStyle: StyleText.baseTextStyle_1,
                     ),
                     SizedBox(
                       height: size.height * 0.005,
@@ -227,28 +218,22 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            "${formatViews(widget.video.viewsCount)} Views •  ${timeAgo(widget.video.publishedAt)}",
-                            style: GoogleFonts.nunito(
-                              textStyle: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
-                            ),
+                          BuildText(
+                            text:
+                                "${formatViews(widget.video.viewsCount)} Views •  ${timeAgo(widget.video.publishedAt)}",
+                            color: Colors.black.withOpacity(0.6),
+                            fontSize: FontSizes.smallTextSize(context),
+                            fontWeight: FontWeight.bold,
+                            textStyle: StyleText.baseTextStyle_2,
                           ),
                           SizedBox(
                             width: size.width * 0.02,
                           ),
-                          Text(
-                            'more..',
-                            style: GoogleFonts.nunito(
-                              textStyle: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
+                          BuildText(
+                            text: 'more..',
+                            fontSize: FontSizes.mediumSmallTextSize(context),
+                            fontWeight: FontWeight.bold,
+                            textStyle: StyleText.baseTextStyle_2,
                           ),
                         ],
                       ),
@@ -256,67 +241,9 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.03,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ProfileAvatar(
-                      imgPath: widget.channel.profilePictureUrl,
-                      radius: 21,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: size.width * 0.03,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              maxLines:
-                                  2, // Allow the text to wrap to a second line if needed
-                              overflow: TextOverflow
-                                  .ellipsis, // Add ellipsis to overflowed text
-                              widget.channel.title,
-                              style: GoogleFonts.nunito(
-                                textStyle: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              '${widget.channel.subscriberCount.toString()} sub',
-                              style: GoogleFonts.nunito(
-                                textStyle: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black.withOpacity(0.6),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                      child: RoundedButton(
-                        text: 'Subscribe',
-                        press: () {},
-                        color: const Color.fromARGB(255, 255, 255, 255),
-                        textColor: kPrimaryDarkShade,
-                        isborder: true,
-                        margin: const EdgeInsets.all(2.0),
-                        fontsize: 12,
-                      ),
-                    ),
-                  ],
-                ),
+              ChannelDetails(
+                size: size,
+                channel: widget.channel,
               ),
               Container(
                 constraints: const BoxConstraints(maxHeight: 50),
@@ -343,14 +270,11 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
                   horizontal: size.width * 0.02,
                   vertical: size.height * 0.01,
                 ),
-                child: Text(
-                  'Related videos : ',
-                  style: GoogleFonts.montserrat(
-                    textStyle: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                child: BuildText(
+                  text: 'Related videos : ',
+                  fontSize: FontSizes.mediumLargeTextSize(context),
+                  fontWeight: FontWeight.bold,
+                  textStyle: StyleText.baseTextStyle_3,
                 ),
               ),
               loading
@@ -371,13 +295,24 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
                         var item = video[index];
 
                         if (video.isEmpty) {
-                          return Text(
-                            'No Videos found ! \n There are no videos Related to this channel',
-                            style: GoogleFonts.montserrat(
-                              textStyle: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          return Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                BuildText(
+                                  text: 'No Videos found !',
+                                  fontSize: FontSizes.mediumTextSize(context),
+                                  fontWeight: FontWeight.bold,
+                                  textStyle: StyleText.baseTextStyle_1,
+                                ),
+                                BuildText(
+                                  text: 'Add some videos to your home page',
+                                  fontSize: FontSizes.mediumTextSize(context),
+                                  fontWeight: FontWeight.bold,
+                                  textStyle: StyleText.baseTextStyle_1,
+                                ),
+                              ],
                             ),
                           );
                         }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:youtube/src/models/video_model.dart';
+
+import '../../utils/styles.dart';
+import '../../widgets/text_style.dart';
 
 class UsedVideoTags extends StatelessWidget {
   const UsedVideoTags({
@@ -23,15 +25,12 @@ class UsedVideoTags extends StatelessWidget {
               children: video.tags
                   .where((hashtag) => hashtag.isNotEmpty)
                   .map((hashtag) {
-                return Text(
-                  "#$hashtag",
-                  style: GoogleFonts.montserrat(
-                    textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue.withOpacity(0.8),
-                    ),
-                  ),
+                return BuildText(
+                  text: "#$hashtag",
+                  color: Colors.blue.withOpacity(0.8),
+                  fontSize: FontSizes.mediumTextSize(context),
+                  fontWeight: FontWeight.bold,
+                  textStyle: StyleText.baseTextStyle_1,
                 );
               }).toList(),
             )

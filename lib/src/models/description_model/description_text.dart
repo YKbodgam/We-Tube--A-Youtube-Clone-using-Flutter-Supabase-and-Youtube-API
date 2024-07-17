@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../utils/styles.dart';
 import 'package:youtube/src/models/video_model.dart';
 
 class ShowDescriptionText extends StatelessWidget {
@@ -29,11 +29,9 @@ class ShowDescriptionText extends StatelessWidget {
       ),
       child: Text(
         video.description,
-        style: GoogleFonts.nunito(
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+        style: StyleText.baseTextStyle_2.copyWith(
+          fontSize: FontSizes.mediumSmallTextSize(context),
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

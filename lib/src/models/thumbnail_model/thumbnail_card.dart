@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import 'thumbnail_image.dart';
+import '../../utils/styles.dart';
+import '../../widgets/text_style.dart';
 import '../../widgets/profile_avatar.dart';
+
 import '../../functions/calculate_time.dart';
 import '../../functions/calculate_views.dart';
 import '../../screens/video_playback_screen.dart';
-
 import '../../constants/rounded_icon_button.dart';
-import 'thumbnail_image.dart';
 
 import 'package:youtube/src/models/video_model.dart';
 import 'package:youtube/src/models/channel_model.dart';
@@ -64,7 +65,7 @@ class _ThumbnailCardState extends State<ThumbnailCard> {
     return Card(
       margin: EdgeInsets.symmetric(
         vertical: size.height * 0.01,
-        horizontal: size.width * 0.02,
+        horizontal: size.width * 0.03,
       ),
       elevation: 5, // Set the elevation to 0 to remove Card's default shadow
       color: const Color.fromARGB(255, 255, 155, 155),
@@ -110,33 +111,22 @@ class _ThumbnailCardState extends State<ThumbnailCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          maxLines:
-                              2, // Allow the text to wrap to a second line if needed
-                          overflow: TextOverflow
-                              .ellipsis, // Add ellipsis to overflowed text
-
-                          widget.videoPreview.title,
-                          style: GoogleFonts.montserrat(
-                            textStyle: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                        BuildText(
+                          text: widget.videoPreview.title,
+                          fontSize: FontSizes.mediumTextSize(context),
+                          fontWeight: FontWeight.bold,
+                          textStyle: StyleText.baseTextStyle_1,
                         ),
-                        Text(
-                          "$username   •   ${formatViews(
+                        BuildText(
+                          text: "$username  •  ${formatViews(
                             widget.videoPreview.viewsCount,
-                          )} Views •  ${timeAgo(
+                          )} Views  •  ${timeAgo(
                             widget.videoPreview.publishedAt,
                           )}",
-                          style: GoogleFonts.nunito(
-                            textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                          ),
+                          color: Colors.black.withOpacity(0.6),
+                          fontSize: FontSizes.smallTextSize(context),
+                          fontWeight: FontWeight.bold,
+                          textStyle: StyleText.baseTextStyle_2,
                         ),
                       ],
                     ),

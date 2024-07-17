@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../utils/styles.dart';
 import '../../utils/colours.dart';
 import '../../widgets/search_bar.dart';
+import '../../widgets/text_style.dart';
 import '../../widgets/profile_avatar.dart';
 
 class HomeNavbar extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomeNavbarState extends State<HomeNavbar> {
     Size size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: size.width * 0.02,
+        horizontal: size.width * 0.03,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,15 +32,13 @@ class _HomeNavbarState extends State<HomeNavbar> {
             height: 50,
             color: kPrimaryDarkShade,
           ),
-          Text(
-            "WeTube",
-            style: GoogleFonts.montserrat(
-              textStyle: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              color: kPrimaryDarkShade,
-            ),
+          BuildText(
+            text: "WeTube",
+            color: kPrimaryDarkShade,
+            // fontSize: 24,
+            fontSize: FontSizes.largeTextSize(context),
+            fontWeight: FontWeight.bold,
+            textStyle: StyleText.baseTextStyle_3,
           ),
           SizedBox(
             width: size.width * 0.06,
