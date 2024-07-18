@@ -121,19 +121,11 @@ class DescriptionCard extends StatelessWidget {
             children: [
               RoundedButton(
                 text: 'Videos',
-                press: () {},
-                margin: const EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 0,
-                ),
+                onPressed: () {},
               ),
               RoundedButton(
                 text: 'Videos',
-                press: () {},
-                margin: EdgeInsets.symmetric(
-                  vertical: size.height * 0,
-                  horizontal: 0,
-                ),
+                onPressed: () {},
               ),
             ],
           ),

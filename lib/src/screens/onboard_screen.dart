@@ -24,7 +24,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
             padding: const EdgeInsets.only(bottom: 20),
             child: RoundedButton(
               text: "Continue",
-              press: () => Navigator.push(
+              onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const HomeScreen(),

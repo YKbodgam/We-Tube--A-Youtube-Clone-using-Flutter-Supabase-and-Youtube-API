@@ -4,7 +4,7 @@ import 'create_video_img.dart';
 import '../../utils/styles.dart';
 import '../../utils/colours.dart';
 import '../../widgets/text_style.dart';
-import '../../widgets/text_field_cont.dart';
+import '../../constants/custom_text_field.dart';
 import '../../constants/rounded_button.dart';
 import '../../functions/calculate_time.dart';
 import '../../functions/calculate_views.dart';
@@ -96,7 +96,7 @@ class _NewVideoCardState extends State<NewVideoCard> {
     return Container(
       margin: EdgeInsets.symmetric(
         vertical: size.height * 0.02,
-        horizontal: size.width * 0.03,
+        horizontal: size.width * 0.04,
       ), // Adjust the width as needed.
       child: Form(
         key: _formKey,
@@ -185,11 +185,7 @@ class _NewVideoCardState extends State<NewVideoCard> {
                     child: RoundedButton(
                       loading: loading,
                       text: 'Add Video',
-                      press: () => Navigator.pop(context, video),
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical: size.height * 0.01,
-                      ),
+                      onPressed: () => Navigator.pop(context, video),
                     ),
                   ),
                 ],
@@ -203,38 +199,29 @@ class _NewVideoCardState extends State<NewVideoCard> {
                   Row(
                     children: [
                       Expanded(
-                        child: TextFieldContainer(
-                          child: TextFormField(
-                            controller: urlController,
-                            onChanged: (value) {},
-                            focusNode: _focusNode,
-                            decoration: const InputDecoration(
-                              icon: Icon(
-                                Icons.person,
-                                color: kPrimaryDarkShade,
-                              ),
-                              hintText: "Enter Video URL here ...",
-                              border: InputBorder.none,
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter a valid URL ! fetched from Youtube";
-                              }
-                              return null;
-                            },
-                          ),
+                        child: CustomTextField(
+                          borderRadius: 15,
+                          controller: urlController,
+                          onChanged: (value) {},
+                          focusNode: _focusNode,
+                          backgroundColor: kPrimaryLightColor,
+                          prefixIcon: Icons.search_outlined,
+                          focusedBorderColor: kPrimaryDarkColor,
+                          hintText: 'Video URL',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter a valid URL ! fetched from Youtube";
+                            }
+                            return null;
+                          },
                         ),
-                      ),
+                      )
                     ],
                   ),
                   RoundedButton(
                     loading: loading,
                     text: 'Continue',
-                    press: btnPressed,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 0,
-                      vertical: 0,
-                    ),
+                    onPressed: btnPressed,
                   ),
                   isTextFocused
                       ? const SizedBox(

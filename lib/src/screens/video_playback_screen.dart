@@ -20,7 +20,7 @@ import '../models/thumbnail_model/thumbnail_card.dart';
 import '../models/skeleton_model/thumbnail_loader.dart';
 import '../models/video_player_model/channel_details.dart';
 import '../models/description_model/description_sheet.dart';
-import '../components/video_player_components/interactive_component.dart';
+import '../components/interactive_component.dart';
 
 class VideoPlaybackScreen extends StatefulWidget {
   final String userId;

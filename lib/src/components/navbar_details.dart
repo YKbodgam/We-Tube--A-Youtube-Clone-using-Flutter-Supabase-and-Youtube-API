@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/styles.dart';
-import '../../utils/colours.dart';
-import '../../widgets/search_bar.dart';
-import '../../widgets/text_style.dart';
-import '../../widgets/profile_avatar.dart';
+import '../utils/styles.dart';
+import '../utils/colours.dart';
+import '../widgets/search_bar.dart';
+import '../widgets/text_style.dart';
+import '../widgets/profile_avatar.dart';
 
 class HomeNavbar extends StatefulWidget {
   const HomeNavbar({super.key});

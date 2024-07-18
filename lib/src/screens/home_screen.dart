@@ -8,7 +8,7 @@ import '../widgets/selectable_chip.dart';
 import '../models/thumbnail_model/thumbnail_card.dart';
 import '../models/skeleton_model/thumbnail_loader.dart';
 import '../models/store_video_model/create_video_sheet.dart';
-import '../components/home_page_components/navbar_details.dart';
+import '../components/navbar_details.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({

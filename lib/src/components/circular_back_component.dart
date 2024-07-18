@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../utils/colours.dart';
+import '../utils/colours.dart';
 
 class CircularField extends StatelessWidget {
   final Widget widget;

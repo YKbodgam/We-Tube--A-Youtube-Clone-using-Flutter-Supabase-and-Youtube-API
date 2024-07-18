@@ -1,41 +1,48 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../utils/colours.dart';
+import '../utils/styles.dart';
+import '../widgets/text_style.dart';
 
 class RoundedButton extends StatefulWidget {
   final String text;
-  final VoidCallback press;
-  final Color color, textColor;
+  final Color? textColor;
+
   final bool loading;
-  final double borderRadius;
-  final EdgeInsets margin;
   final bool isborder;
-  final double fontsize;
+
+  final double? width;
+  final double? height;
+  final double? fontsize;
+  final double? borderRadius;
+
+  final IconData? icon;
+  final Color? iconColor;
+  final Color? backgroundColor;
+  final VoidCallback onPressed;
 
   const RoundedButton({
     super.key,
     required this.text,
-    required this.press,
-    this.color = kPrimaryDarkShade,
-    this.textColor = Colors.white,
+    required this.onPressed,
+    this.width,
+    this.height,
+    this.icon,
+    this.iconColor,
     this.loading = false,
-    this.borderRadius = 30.0,
-    this.margin = const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
     this.isborder = false,
-    this.fontsize = 16,
+    this.fontsize,
+    this.textColor,
+    this.borderRadius = 30.0,
+    this.backgroundColor = kPrimaryDarkShade,
   });
 
   @override
-  _RoundedButtonState createState() => _RoundedButtonState();
+  State<RoundedButton> createState() => _RoundedButtonState();
 }
 
 class _RoundedButtonState extends State<RoundedButton> {
-  // The state of the button
-
   Future<void> _handlePress() async {
     var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) {
@@ -47,23 +54,23 @@ class _RoundedButtonState extends State<RoundedButton> {
         );
       }
     } else {
-      widget.press();
+      widget.onPressed();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      margin: widget.margin,
+    Size size = MediaQuery.of(context).size;
+
+    return SizedBox(
+      height: widget.height ?? size.height * 0.07,
       child: ElevatedButton(
-        onPressed: widget.loading ? null : _handlePress,
         style: ElevatedButton.styleFrom(
-          backgroundColor: widget.color,
+          backgroundColor: widget.backgroundColor,
           shape: widget.isborder
               ? RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
-                    widget.borderRadius,
+                    widget.borderRadius ?? 0,
                   ),
                   side: const BorderSide(
                     color:
@@ -73,26 +80,31 @@ class _RoundedButtonState extends State<RoundedButton> {
                 )
               : RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
-                    widget.borderRadius,
+                    widget.borderRadius ?? 0,
                   ),
                 ),
         ),
-        child: Center(
-          child: widget.loading
-              ? const CircularProgressIndicator(
-                  strokeWidth: 3,
-                  color: Colors.white,
-                )
-              : Text(
-                  widget.text,
-                  style: GoogleFonts.montserrat(
-                    textStyle: TextStyle(
-                      color: widget.textColor,
-                      fontSize: widget.fontsize,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+        onPressed: widget.loading ? null : _handlePress,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (widget.icon != null)
+              Icon(
+                widget.icon,
+                color: widget.iconColor ?? widget.textColor,
+              ),
+            if (widget.icon != null)
+              SizedBox(
+                width: size.width * 0.01,
+              ), // Add some space between the icon and text
+            BuildText(
+              text: widget.text,
+              color: widget.textColor ?? Colors.white,
+              fontSize: widget.fontsize ?? FontSizes.regularTextSize(context),
+              fontWeight: FontWeight.bold,
+              textStyle: StyleText.baseTextStyle_3,
+            ),
+          ],
         ),
       ),
     );

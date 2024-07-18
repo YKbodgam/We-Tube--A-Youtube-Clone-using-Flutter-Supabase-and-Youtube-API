@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'circular_back_component.dart';
 
-import '../../utils/styles.dart';
-import '../../utils/colours.dart';
-import '../../widgets/text_style.dart';
-import '../../functions/calculate_views.dart';
+import '../utils/styles.dart';
+import '../utils/colours.dart';
+import '../widgets/text_style.dart';
+import '../functions/calculate_views.dart';
 
 class InteractiveField extends StatelessWidget {
   final String likecount;
