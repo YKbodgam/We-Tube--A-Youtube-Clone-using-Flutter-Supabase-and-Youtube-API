@@ -27,8 +27,8 @@ class UsedVideoTags extends StatelessWidget {
                   .map((hashtag) {
                 return BuildText(
                   text: "#$hashtag",
-                  color: Colors.blue.withOpacity(0.8),
-                  fontSize: FontSizes.mediumTextSize(context),
+                  color: Colors.blue.withOpacity(0.6),
+                  fontSize: FontSizes.mediumSmallTextSize(context),
                   fontWeight: FontWeight.bold,
                   textStyle: StyleText.baseTextStyle_1,
                 );

@@ -102,91 +102,49 @@ class _NewVideoCardState extends State<NewVideoCard> {
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                BuildText(
-                  text: "Add Video",
-                  color: kPrimaryDarkShade,
-                  fontSize: FontSizes.largeTextSize(context),
-                  fontWeight: FontWeight.bold,
-                  textStyle: StyleText.baseTextStyle_2,
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(
-                    Icons.close_outlined,
-                    color: kPrimaryDarkShade,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context, null); // Close the dialog.
-                  },
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: size.height * 0.01,
-              ),
-              child: Center(
-                child: Container(
-                  height: 1.0, // Set the height of the line
-                  color: kPrimaryDarkShade, // Set the color of the line
-                ),
-              ),
-            ),
             Visibility(
               visible: isInitialized,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: size.height * 0.01,
-                    ),
-                    child: VideoThumbnailImg(
-                      imgPath: video.thumbnail.thumbnailUrl,
-                    ),
+                  VideoThumbnailImg(
+                    imgPath: video.thumbnail.thumbnailUrl,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      vertical: size.height * 0.01,
+                      vertical: size.height * 0.02,
                       horizontal: size.width * 0.02,
                     ),
-                    child: BuildText(
-                      text: video.title,
-                      fontSize: FontSizes.mediumLargeTextSize(context),
-                      fontWeight: FontWeight.bold,
-                      textStyle: StyleText.baseTextStyle_1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        BuildText(
+                          text: video.title,
+                          fontSize: FontSizes.mediumLargeTextSize(context),
+                          fontWeight: FontWeight.bold,
+                          textStyle: StyleText.baseTextStyle_1,
+                        ),
+                        BuildText(
+                          text: "${formatViews(
+                            video.viewsCount,
+                          )} Views •  ${timeAgo(
+                            video.publishedAt,
+                          )}",
+                          color: Colors.black.withOpacity(0.6),
+                          fontSize: FontSizes.mediumSmallTextSize(context),
+                          fontWeight: FontWeight.bold,
+                          textStyle: StyleText.baseTextStyle_2,
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.02,
-                    ),
-                    child: BuildText(
-                      text: "${formatViews(
-                        video.viewsCount,
-                      )} Views •  ${timeAgo(
-                        video.publishedAt,
-                      )}",
-                      color: Colors.black.withOpacity(0.6),
-                      fontSize: FontSizes.mediumSmallTextSize(context),
-                      fontWeight: FontWeight.bold,
-                      textStyle: StyleText.baseTextStyle_2,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: size.height * 0.01,
-                    ),
-                    child: RoundedButton(
-                      loading: loading,
-                      text: 'Add Video',
-                      onPressed: () => Navigator.pop(context, video),
-                    ),
+                  RoundedButton(
+                    loading: loading,
+                    text: 'Add Video',
+                    onPressed: () => Navigator.pop(context, video),
                   ),
                 ],
               ),
@@ -196,27 +154,21 @@ class _NewVideoCardState extends State<NewVideoCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomTextField(
-                          borderRadius: 15,
-                          controller: urlController,
-                          onChanged: (value) {},
-                          focusNode: _focusNode,
-                          backgroundColor: kPrimaryLightColor,
-                          prefixIcon: Icons.search_outlined,
-                          focusedBorderColor: kPrimaryDarkColor,
-                          hintText: 'Video URL',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter a valid URL ! fetched from Youtube";
-                            }
-                            return null;
-                          },
-                        ),
-                      )
-                    ],
+                  CustomTextField(
+                    borderRadius: 15,
+                    controller: urlController,
+                    onChanged: (value) {},
+                    focusNode: _focusNode,
+                    backgroundColor: kPrimaryLightColor,
+                    prefixIcon: Icons.search_outlined,
+                    focusedBorderColor: kPrimaryDarkColor,
+                    hintText: 'Video URL',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter a valid URL ! fetched from Youtube";
+                      }
+                      return null;
+                    },
                   ),
                   RoundedButton(
                     loading: loading,

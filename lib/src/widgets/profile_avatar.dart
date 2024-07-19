@@ -32,7 +32,7 @@ class ProfileAvatar extends StatelessWidget {
         ),
       ),
       child: CircleAvatar(
-        backgroundImage: imgPath != 'null' && imgPath.isNotEmpty
+        backgroundImage: imgPath != '' && imgPath.isNotEmpty
             ? CachedNetworkImageProvider(imgPath) as ImageProvider
             : const AssetImage("assets/images/Profile.jpg"),
       ),

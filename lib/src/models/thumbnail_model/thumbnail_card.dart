@@ -65,7 +65,7 @@ class _ThumbnailCardState extends State<ThumbnailCard> {
     return Card(
       margin: EdgeInsets.symmetric(
         vertical: size.height * 0.01,
-        horizontal: size.width * 0.03,
+        horizontal: size.width * 0.02,
       ),
       elevation: 5, // Set the elevation to 0 to remove Card's default shadow
       color: const Color.fromARGB(255, 255, 155, 155),

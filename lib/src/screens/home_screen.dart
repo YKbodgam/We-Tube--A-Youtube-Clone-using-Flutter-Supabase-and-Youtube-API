@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../utils/styles.dart';
@@ -5,10 +7,12 @@ import '../utils/colours.dart';
 import '../widgets/text_style.dart';
 import '../widgets/selectable_chip.dart';
 
+import '../components/navbar_details.dart';
 import '../models/thumbnail_model/thumbnail_card.dart';
 import '../models/skeleton_model/thumbnail_loader.dart';
 import '../models/store_video_model/create_video_sheet.dart';
-import '../components/navbar_details.dart';
+
+import 'package:youtube/src/services/fetch_videos_category.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -29,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    getCategoryVideos();
   }
 
   Future<void> getAllVideos() async {
@@ -45,19 +50,60 @@ class _HomeScreenState extends State<HomeScreen> {
     // );
   }
 
-  final List<String> tags = [
-    'Technology',
-    'Education',
-    'Music',
-    'Sports',
-    'Movies',
-    'Science',
-    'Cooking',
-  ];
+  final Map<String, dynamic> categoryIds = {
+    'Entertainment': {'24': []},
+    'News & Politics': {'25': []},
+    'Games': {'20': []},
+    'Music': {'10': []},
+    'Sports': {'17': []},
+    'Education': {'27': []},
+    'Autos & Vehicles': {'2': []},
+    'Travel & Events': {'19': []},
+  };
+
+  Future<void> getCategoryVideos() async {
+    setState(() {
+      loading = true;
+    });
+
+    final fetchedCategoryVideos = await fetchCategoryVideos();
+
+    setState(() {
+      fetchedCategoryVideos.forEach((categoryId, videos) {
+        categoryIds.forEach(
+          (categoryName, categoryMap) {
+            if (categoryMap.containsKey(categoryId)) {
+              categoryMap[categoryId] = videos;
+            }
+          },
+        );
+      });
+    });
+
+    setState(() {
+      loading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final categories = categoryIds.keys.toList();
+    final categoriesMap = categoryIds.map((categoryName, categoryMap) {
+      return MapEntry(categoryName, categoryMap.values.toList());
+    });
+
+    // Flatten the videos list
+    final List<dynamic> categoryVideos = categoriesMap.values
+        .expand((categoryList) => categoryList.first as List<dynamic>)
+        .toList();
+
+    categoryVideos.shuffle(Random());
+
+    // loading
+    //     ? categoryVideos.shuffle(Random())
+    //     : categoryVideos.toList(); // Shuffle the list
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -75,12 +121,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   constraints: const BoxConstraints(maxHeight: 60),
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: tags.length,
+                    itemCount: categories.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 12.0),
                         child: SelectableChip(
-                          label: tags[index],
+                          label: categories[index],
                         ),
                       );
                     },
@@ -88,16 +134,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   child: RefreshIndicator(
-                    onRefresh: getAllVideos,
+                    onRefresh: () => getCategoryVideos(),
                     child: loading
                         ? ListView(
                             children: List.generate(
                               // Generate loading skeleton cards based on the length of the list
-                              videos.length,
+                              categoryVideos.length,
                               (index) => BuildSkeletonLoader(size: size),
                             ),
                           )
-                        : videos.isEmpty
+                        : categoryVideos.isEmpty
                             ? Center(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,11 +167,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               )
                             : ListView.builder(
-                                itemCount: videos.length,
+                                itemCount: categoryVideos.length,
                                 itemBuilder: (context, index) {
-                                  var item = videos[index];
-
-                                  loading = false;
+                                  var item = categoryVideos[index];
 
                                   return ThumbnailCard(
                                     videoPreview: item,

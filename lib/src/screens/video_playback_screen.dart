@@ -16,6 +16,7 @@ import '../functions/calculate_views.dart';
 
 import '../constants/image_error_cont.dart';
 import '../constants/image_loading_cont.dart';
+import '../models/comments_model/comment_init.dart';
 import '../models/thumbnail_model/thumbnail_card.dart';
 import '../models/skeleton_model/thumbnail_loader.dart';
 import '../models/video_player_model/channel_details.dart';
@@ -261,13 +262,20 @@ class _VideoPlaybackScreenState extends State<VideoPlaybackScreen> {
                   },
                 ),
               ),
+              Visibility(
+                visible: widget.video.comments.isNotEmpty,
+                child: CommentPopular(
+                  comments: widget.video.comments,
+                  commentCount: widget.video.commentsCount,
+                ),
+              ),
               const Divider(
                 color: kPrimaryDarkColor,
                 thickness: 1,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.02,
+                  horizontal: size.width * 0.03,
                   vertical: size.height * 0.01,
                 ),
                 child: BuildText(

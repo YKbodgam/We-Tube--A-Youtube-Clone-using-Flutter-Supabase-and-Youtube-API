@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:intern_project_2/src/config/snackbar.dart';
 
 import '../utils/colours.dart';
 import '../utils/styles.dart';
@@ -47,10 +48,9 @@ class _RoundedButtonState extends State<RoundedButton> {
     var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("No internet connection"),
-          ),
+        SnackWidget.showSnackbar(
+          context,
+          "No internet connection",
         );
       }
     } else {
@@ -63,6 +63,7 @@ class _RoundedButtonState extends State<RoundedButton> {
     Size size = MediaQuery.of(context).size;
 
     return SizedBox(
+      width: widget.width,
       height: widget.height ?? size.height * 0.07,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -95,7 +96,7 @@ class _RoundedButtonState extends State<RoundedButton> {
               ),
             if (widget.icon != null)
               SizedBox(
-                width: size.width * 0.01,
+                width: size.width * 0.02,
               ), // Add some space between the icon and text
             BuildText(
               text: widget.text,

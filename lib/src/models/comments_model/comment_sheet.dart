@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'package:youtube/src/models/video_model.dart';
-import 'package:youtube/src/models/channel_model.dart';
-
-import 'description_card.dart';
+import 'comments_card.dart';
 import '../../utils/styles.dart';
-import '../../utils/colours.dart';
 import '../../widgets/text_style.dart';
 
-class DescriptionSheet extends StatelessWidget {
-  final VideoPreview video;
-  final Channel channel;
+import 'package:youtube/src/models/comments_model.dart';
 
-  const DescriptionSheet({
+class CommentSheet extends StatelessWidget {
+  final List<Comments> comment;
+
+  const CommentSheet({
     super.key,
-    required this.video,
-    required this.channel,
+    required this.comment,
   });
 
   @override
@@ -52,18 +48,18 @@ class DescriptionSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     BuildText(
-                      text: "Description",
-                      color: kPrimaryDarkShade,
+                      text: "Comments",
+                      color: Colors.black,
                       // fontSize: 24,
-                      fontSize: FontSizes.veryLargeTextSize(context),
+                      fontSize: FontSizes.regularTextSize(context),
                       fontWeight: FontWeight.bold,
-                      textStyle: StyleText.baseTextStyle_2,
+                      textStyle: StyleText.baseTextStyle_3,
                     ),
                     const Spacer(),
                     IconButton(
                       icon: const Icon(
                         Icons.close_outlined,
-                        color: kPrimaryDarkShade,
+                        color: Colors.black,
                       ),
                       onPressed: () {
                         Navigator.pop(context, null); // Close the dialog.
@@ -74,16 +70,29 @@ class DescriptionSheet extends StatelessWidget {
               ),
               Container(
                 height: 1.0, // Set the height of the line
-                color: kPrimaryDarkShade, // Set the color of the line
+                color: Colors.black, // Set the color of the line
               ),
               Expanded(
-                child: ListView.builder(
-                  controller: scrollController,
-                  itemCount: 1,
-                  itemBuilder: (BuildContext context, int index) {
-                    return DescriptionCard(video: video, channel: channel);
-                  },
-                ),
+                child: comment.isEmpty
+                    ? Center(
+                        child: BuildText(
+                          text: 'No Comments found !',
+                          fontSize: FontSizes.mediumTextSize(context),
+                          fontWeight: FontWeight.bold,
+                          textStyle: StyleText.baseTextStyle_1,
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: comment.length,
+                        controller: scrollController,
+                        itemBuilder: (context, index) {
+                          var item = comment[index];
+
+                          return CommentCard(
+                            comment: item,
+                          );
+                        },
+                      ),
               ),
             ],
           ),

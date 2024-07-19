@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intern_project_2/src/utils/colours.dart';
 
 import 'description_tags.dart';
 import 'description_text.dart';
 import 'description_stats.dart';
 import '../../utils/styles.dart';
-import '../../utils/colours.dart';
 import '../../widgets/text_style.dart';
 import '../../constants/rounded_button.dart';
 
@@ -28,44 +30,12 @@ class DescriptionCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(
-        vertical: size.height * 0.01,
+        vertical: size.height * 0.02,
         horizontal: size.width * 0.03,
       ), // Adjust the width as needed.
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              BuildText(
-                text: "Description",
-                color: kPrimaryDarkShade,
-                // fontSize: 24,
-                fontSize: FontSizes.veryLargeTextSize(context),
-                fontWeight: FontWeight.bold,
-                textStyle: StyleText.baseTextStyle_2,
-              ),
-              const Spacer(),
-              IconButton(
-                icon: const Icon(
-                  Icons.close_outlined,
-                  color: kPrimaryDarkShade,
-                ),
-                onPressed: () {
-                  Navigator.pop(context, null); // Close the dialog.
-                },
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: size.height * 0.02,
-            ),
-            child: Container(
-              height: 1.0, // Set the height of the line
-              color: kPrimaryDarkShade, // Set the color of the line
-            ),
-          ),
           BuildText(
             text: video.title,
             // fontSize: 24,
@@ -117,15 +87,32 @@ class DescriptionCard extends StatelessWidget {
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              RoundedButton(
-                text: 'Videos',
-                onPressed: () {},
+              Expanded(
+                child: RoundedButton(
+                  height: 50,
+                  text: 'Videos',
+                  icon: Icons.video_library_outlined,
+                  iconColor: Colors.white,
+                  fontsize: FontSizes.mediumLargeTextSize(context),
+                  onPressed: () {},
+                ),
               ),
-              RoundedButton(
-                text: 'Videos',
-                onPressed: () {},
+              SizedBox(
+                width: size.width * 0.03,
+              ),
+              Expanded(
+                child: RoundedButton(
+                  height: 50,
+                  text: 'About',
+                  textColor: kPrimaryDarkShade,
+                  backgroundColor: Colors.white,
+                  icon: Icons.person_outline_outlined,
+                  isborder: true,
+                  fontsize: FontSizes.mediumLargeTextSize(context),
+                  onPressed: () {},
+                ),
               ),
             ],
           ),
